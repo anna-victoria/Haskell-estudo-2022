@@ -25,6 +25,7 @@ source-repository head
 
 library
   exposed-modules:
+      AttDois
       Lib
   other-modules:
       Paths_haskellatts
@@ -37,7 +38,6 @@ library
 executable haskellatts-exe
   main-is: Main.hs
   other-modules:
-      AttDois
       Paths_haskellatts
   hs-source-dirs:
       app
