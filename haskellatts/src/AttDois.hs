@@ -1,5 +1,6 @@
-
 module AttDois where
+import Data.List (group)
+import Data.Char (isDigit)
 
 -- questão um
 -- Utilizando a função soma, faça uma função que calcule a multiplicação entre dois números quaisquer, 
@@ -128,19 +129,56 @@ intersecao (x:xs) (y:ys) = if elem x (y:ys)
                           -- x : intersecao xs (y:ys) concatena x ao resultado de intersecao xs (y:ys)
                           -- intersecao xs (y:ys) concatena o resultado de intersecao xs (y:ys) ao resultado de intersecao xs (y:ys)
 
+intersecao' l1 l2 = [x | x <- l1, elem x l2]
+
 
 --questão dez
 --Crie uma função que faça uma codificação sobre uma sequência de caracteres iguais, substitua a sequência por !na, onde n é o número de
 -- vezes que o caractere a é repetido. Observe que só devem ser comprimidas sequências de tamanhos maiores que 3. 
 --Exemplo: comprime "asdffffghjjkllllpoooi" "asd!4fghjjk!4lpoooi"
 
-compress :: String -> String
-compress [] = []
-compress (x:xs) = if length (x:xs) > 3
-                  then x : '!' : show (length (x:xs)) : compress xs
-                  else x : compress xs
+-- compress :: String -> String
+-- compress [] = []
+-- compress (x:xs) = if length (x:xs) > 3
+--                   then x : '!' : show (length (x:xs)) : compress xs
+--                   else x : compress xs
                   -- length (x:xs) retorna o tamanho da lista (x:xs)
                   -- show (length (x:xs)) retorna o tamanho da lista (x:xs) como uma string
                   -- x : '!' : show (length (x:xs)) concatena x, '!', e o tamanho da lista (x:xs) como uma string
                   -- x : compress xs concatena x ao resultado de compress xs
                   -- compress xs concatena o resultado de compress xs ao resultado de compress xs
+
+-- codigo do professor
+-- import Data.List para fazer essa questão
+
+comprime :: String -> String
+comprime s = concat [comp x | x <- group s] -- vai criar uma função comp x que comprime os bagulho
+-- concat vai concatenar todos os elementos de uma lista
+-- group vai agrupar os elementos de uma lista
+
+
+comp s 
+    | length s > 3 = "!" ++ show (length s) ++ [head s] -- show converte para string
+    | otherwise = s
+
+
+-- questão onze
+--Implemente uma função que descomprima o texto resultante da função anterior.
+--Exemplo: descomprime "asd!4fghjjk!4lpoooi" "asdffffghjjkllllpoooi"
+
+descomprime :: String -> String
+descomprime s = concat [descomp x | x <- group s]
+-- concat vai concatenar todos os elementos de uma lista
+-- group vai agrupar os elementos de uma lista
+
+descomp s
+    | head s == '!' = replicate (read (tail s)) (head (dropWhile (/= '!') s)) -- read converte para inteiro
+    | otherwise = s
+
+
+-- descomprime (l:ls)
+--     | l == '!' = read (takeWhile isDigit ls) :: Integer
+--     drop 
+
+-- transformar o !10k em kkkkkkkkkk
+--desconverte x y = foldl (++) [] (replicate x y)
